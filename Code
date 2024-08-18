@@ -1,0 +1,138 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as pyplot
+import seaborn as sns
+data = pd.read_csv("/content/Amazon Sales data.csv",encoding = 'latin-1')
+data
+data.columns
+data.info()
+data['Order Date'] = pd.to_datetime(data['Order Date'])
+data['Ship Date'] = pd.to_datetime(data['Ship Date'])
+data['Region'] = data['Region'].astype(str)
+data['Country'] = data['Country'].astype(str)
+data['Item Type'] = data['Item Type'].astype(str)
+data['Sales Channel'] = data['Sales Channel'].astype(str)
+data['Order Priority'] = data['Order Priority'].astype(str)
+data[['Units Sold', 'Unit Price', 'Unit Cost', 'Total Revenue', 'Total Cost',	'Total Profit']].describe()
+
+df = data
+df.isnull().sum()
+pd.set_option('display.max_rows', None)
+df['Country'].value_counts()
+import matplotlib.pyplot as plt
+country_names = df.Country.value_counts().index
+country_val = df.Country.value_counts().values
+# Pie Chart for top 20 country
+fig,ax = plt.subplots(figsize=(9,9))
+ax.pie(country_val[:20],labels=country_names[:20],autopct='%1.2f%%')
+plt.show()
+import matplotlib.pyplot as plt
+sns.set(style='white')
+fig, ax = plt.subplots(figsize=(10, 2))
+sns.boxplot(data['Total Profit'], color="plum", width=.6)
+plt.title('Total Profit Boxplot', fontsize=13)
+plt.xlabel('Profit')
+plt.show()
+def detect_outliers(dataframe, column):
+    threshold = 2     ## 2rd standard deviation
+    mean = np.mean(column)
+    std = np.std(column)
+    outliers = []
+    for i, value in enumerate(column):
+        z_score = (value - mean) / std
+        if np.abs(z_score) > threshold:
+            outliers.append(i)
+            print(dataframe.loc[i])
+    return outliers
+outliers = detect_outliers(df, df["Total Profit"])
+print(outliers)
+list_length = len(outliers)
+# Print the number of values in the list
+print("The list has", list_length, "outliers in Total Profit column of dataframe data ")
+sns.set(style='white')
+fig, ax = plt.subplots(figsize=(10, 2))
+sns.boxplot(data['Total Cost'], color="plum", width=.6)
+plt.title('Total Cost Boxplot', fontsize=13)
+plt.xlabel('Cost')
+plt.show()
+def detect_outliers(dataframe, column):
+    threshold = 2     ## 3rd standard deviation
+    mean = np.mean(column)
+    
+std = np.std(column)
+    outliers = []
+    for i, value in enumerate(column):
+        z_score = (value - mean) / std
+        if np.abs(z_score) > threshold:
+            outliers.append(i)
+            print(dataframe.loc[i])
+    return outliers
+outliers = detect_outliers(df, df["Total Cost"])
+print(outliers)
+list_length = len(outliers)
+# Print the number of values in the list
+print("The list has", list_length, "outliers in Total Cost column of dataframe data ")
+sns.set(style='white')
+fig, ax = plt.subplots(figsize=(10, 2))
+sns.boxplot(data['Total Revenue'], color="plum", width=.6)
+plt.title('Total Revenue Boxplot', fontsize=13)
+plt.xlabel('Revenue')
+plt.show()
+def detect_outliers(dataframe, column):
+    threshold = 2     ## 3rd standard deviation
+    mean = np.mean(column)
+    std = np.std(column)
+    outliers = []
+    for i, value in enumerate(column):
+        z_score = (value - mean) / std
+        if np.abs(z_score) > threshold:
+            outliers.append(i)
+            print(dataframe.loc[i])
+    return outliers
+outliers = detect_outliers(df, df["Total Revenue"])
+print(outliers)
+list_length = len(outliers)
+# Print the number of values in the list
+print("The list has", list_length, "outliers in Total Revenue column of dataframe data ")
+sns.set(style='white')
+fig, ax = plt.subplots(figsize=(10, 2))
+sns.boxplot(data['Unit Cost'], color="plum", width=.6)
+plt.title('Unit Cost Boxplot', fontsize=13)
+plt.xlabel('Unit Cost')
+plt.show()
+sns.set(style='white')
+fig, ax = plt.subplots(figsize=(10, 2))
+
+sns.boxplot(data['Unit Price'], color="plum", width=.6)
+plt.title('Unit Price Boxplot', fontsize=13)
+plt.xlabel('Unit Price')
+plt.show()
+sns.set(style='white')
+fig, ax = plt.subplots(figsize=(10, 2))
+sns.boxplot(data['Units Sold'], color="plum", width=.6)
+plt.title('Units Sold Boxplot', fontsize=13)
+plt.xlabel('Units Sold')
+plt.show()
+# Creating a bar chart for Total Revenue and Order Month
+plt.bar(df['Order Month'], df['Total Revenue'])
+# Set the chart title and axis labels
+plt.title('Number of Orders Purchased by Month and Year')
+plt.xticks([1,2,3,4,5,6,7,8,9,10,11,12])
+plt.xlabel('Order Month')
+plt.ylabel('Total Revenue')
+# Rotate the x-axis labels for better readability
+# Display the chart
+plt.show()
+# Plot line graph of Total Profit and Order Year
+df.groupby('Order Year')['Total Profit'].mean().plot()
+plt.xlabel('Order Year')
+plt.ylabel('Total Profit')
+plt.title('Profit per year')
+# Calculating the total revenue for each group with respect to Item Type and then sorting then in descending order
+revenue_by_category = df.groupby('Item Type')['Total Revenue'].sum().sort_values(ascending=False)
+revenue_by_category
+# Calculating the total profit for each group with respect to Item Type and then sorting then in descending order
+profit_by_category = df.groupby('Item Type')['Total Profit'].sum().sort_values(ascending=False)
+profit_by_category
+# Calculating correlation of 'Total Revenue', 'Total Cost' and 'Total Profit' columns present in dataframe
+print(df[['Total Revenue', 'Total Cost', 'Total Profit']].corr())
