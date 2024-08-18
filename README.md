@@ -67,6 +67,9 @@ Correlation indicates the strength and direction of the linear relationship betw
 
 This code provides a comprehensive analysis of the Amazon sales data, allowing for insights into sales performance, profit margins, and product category trends.
 
+# Colab Link
+https://colab.research.google.com/drive/1TVYHtzTfbitywGwRr2L6cZgjKigSykxs?usp=sharing
+
 ![image](https://github.com/user-attachments/assets/34ba65c6-4383-4c46-b524-9b54d006bf28)
 
 ![image](https://github.com/user-attachments/assets/04cd4e32-9c12-46d0-8773-db0602456d62)
